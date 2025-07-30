@@ -1,0 +1,23 @@
+module(
+    name = "my_project",
+    version = "1.0",
+)
+
+bazel_dep(name = "rules_java", version = "8.14.0")
+bazel_dep(name = "rules_jvm_external", version = "6.8")
+
+# Подключаем расширение maven из rules_jvm_external
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+
+# Указываем артефакты
+maven.install(
+    artifacts = [
+        "org.apache.commons:commons-lang3:3.18.0",
+    ],
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+)
+
+# Привязываем расширение к имени репозитория
+use_repo(maven, "maven")
